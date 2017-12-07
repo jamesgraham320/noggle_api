@@ -1,0 +1,10 @@
+development:
+  adapter: async
+
+test:
+  adapter: async
+
+production:
+  adapter: redis
+  url: redis://redistogo:0f04b7f755be2f2914208e2f8bcf3741@angelfish.redistogo.com:10952/
+  <%#channel_prefix: noggle_api_production%>
