@@ -5,9 +5,6 @@ class GamesController < ApplicationController
     current_game.users = User.online
     if current_game.save
       ActionCable.server.broadcast 'game_channel', {current_game: {game_data: current_game, scores: current_game.scores, users: current_game.users}}
-      sleep(65)
-      current_game.running = false
-      current_game.save
     else
       ActionCable.server.broadcast 'game_channel', {errors: current_game.errors}
     end
