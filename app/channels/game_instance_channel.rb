@@ -11,7 +11,12 @@ class GameInstanceChannel < ApplicationCable::Channel
 
     users = User.all
     users_online = users.select {|user| user.online == true}
-    ActionCable.server.broadcast "game_channel", {users: users_online}
+
+    if users_online.empty? && Game.find_by(running: true)
+      current_game = Game.find_by(running:true)
+      current_game.update(running: false)
+    end
+    ActionCable.server.broadcast "game_channel", {users: users_online, high_scores:Score.high_scores}
 
   end
 end
