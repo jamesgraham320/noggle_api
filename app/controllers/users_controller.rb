@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   def create
     user = User.find_by(user_params) || User.new(user_params)
     if user.save
-      render json: {user: user, user_high_scores: user.high_scores}
+      render json: {user: user}
     else
       render json: {errors: user.errors}
     end
