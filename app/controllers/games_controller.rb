@@ -17,7 +17,7 @@ class GamesController < ApplicationController
     game.update(running: false)
     highest_score = game.scores.order('points DESC').first.points
     winner = game.scores.select {|score| score.points == highest_score}
-    ordered_scores = game.scores.order('point DESC')
+    ordered_scores = game.scores.order('points DESC')
     ActionCable.server.broadcast 'game_channel', {final_scores: {users: game.users, scores: ordered_scores, winner: winner}}
   end
 end
