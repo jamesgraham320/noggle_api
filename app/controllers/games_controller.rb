@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
 
   def create
-    if !Game.find_by(running:true) 
+    if !Game.find_by(running:true)
       current_game = Game.new
       current_game.users = User.online
       if current_game.save
@@ -17,6 +17,7 @@ class GamesController < ApplicationController
     game.update(running: false)
     highest_score = game.scores.order('points DESC').first.points
     winner = game.scores.select {|score| score.points == highest_score}
-    ActionCable.server.broadcast 'game_channel', {final_scores: {users: game.users, scores: game.scores, winner: winner}}
+    ordered_scores = game.scores.order('point DESC')
+    ActionCable.server.broadcast 'game_channel', {final_scores: {users: game.users, scores: ordered_scores, winner: winner}}
   end
 end
