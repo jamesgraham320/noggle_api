@@ -5,6 +5,7 @@ class ScoresController < ApplicationController
     score.points += score_params[:points]
     score.save
     game = Game.find(score_params[:game])
+    ordered_scores = game.scores.order('points DESC')
     ActionCable.server.broadcast 'game_channel', {
       scores: {scores: game.scores, users: game.users}
     }
